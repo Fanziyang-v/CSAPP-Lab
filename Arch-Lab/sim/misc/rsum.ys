@@ -1,0 +1,45 @@
+# rsum.ys: Recursively sum liked list elements
+
+	.pos 0
+	irmovq stack, %rsp	# Set up stack pointer
+	call main		# Execute main program
+	halt			# Terminate program
+
+# linked list
+ls:
+	ele1:
+		.quad 0x00a
+		.quad ele2
+	ele2:
+		.quad 0x0b0
+		.quad ele3:
+	ele3:
+		.quad 0xc00
+		.quad 0
+
+main:
+	irmovq ls, %rdi
+	call rsum_list
+	ret
+
+# long rsum_list(list_ptr ls)
+# ls in %rdi
+rsum_list:
+	pushq %rbx		# Save %rbx in stack
+	rrmovq %rdi, %rbx	# Copy %rdi to %rbx
+	xorq %rax, %rax		# Clear %rax
+	andq %rdi, %rdi		# Test ls
+	je end			# Jump to end if ls is nullptr
+
+	mrmovq 8(%rdi), %rdi	# Get ls->next
+	call rsum_list
+	mrmovq (%rbx), %r8	# Get ls->val
+	addq %r8, %rax		# Compute val + rsum_list(ls->next)
+end:
+	popq %rbx		# Restore %rbx
+	ret
+
+# Stack here
+	.pos 0x200
+stack:
+

@@ -1,0 +1,45 @@
+                            | # rsum.ys: Recursively sum liked list elements
+                            | 
+0x000:                      | 	.pos 0
+0x000: 30f40002000000000000 | 	irmovq stack, %rsp	# Set up stack pointer
+0x00a: 804400000000000000   | 	call main		# Execute main program
+0x013: 00                   | 	halt			# Terminate program
+                            | 
+                            | # linked list
+0x014:                      | ls:
+0x014:                      | 	ele1:
+0x014: 0a00000000000000     | 		.quad 0x00a
+0x01c: 2400000000000000     | 		.quad ele2
+0x024:                      | 	ele2:
+0x024: b000000000000000     | 		.quad 0x0b0
+0x02c: 3400000000000000     | 		.quad ele3:
+0x034:                      | 	ele3:
+0x034: 000c000000000000     | 		.quad 0xc00
+0x03c: 0000000000000000     | 		.quad 0
+                            | 
+0x044:                      | main:
+0x044: 30f71400000000000000 | 	irmovq ls, %rdi
+0x04e: 805800000000000000   | 	call rsum_list
+0x057: 90                   | 	ret
+                            | 
+                            | # long rsum_list(list_ptr ls)
+                            | # ls in %rdi
+0x058:                      | rsum_list:
+0x058: a03f                 | 	pushq %rbx		# Save %rbx in stack
+0x05a: 2073                 | 	rrmovq %rdi, %rbx	# Copy %rdi to %rbx
+0x05c: 6300                 | 	xorq %rax, %rax		# Clear %rax
+0x05e: 6277                 | 	andq %rdi, %rdi		# Test ls
+0x060: 738800000000000000   | 	je end			# Jump to end if ls is nullptr
+                            | 
+0x069: 50770800000000000000 | 	mrmovq 8(%rdi), %rdi	# Get ls->next
+0x073: 805800000000000000   | 	call rsum_list
+0x07c: 50830000000000000000 | 	mrmovq (%rbx), %r8	# Get ls->val
+0x086: 6080                 | 	addq %r8, %rax		# Compute val + rsum_list(ls->next)
+0x088:                      | end:
+0x088: b03f                 | 	popq %rbx		# Restore %rbx
+0x08a: 90                   | 	ret
+                            | 
+                            | # Stack here
+0x200:                      | 	.pos 0x200
+0x200:                      | stack:
+                            | 

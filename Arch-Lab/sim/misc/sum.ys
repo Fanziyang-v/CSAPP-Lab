@@ -1,0 +1,43 @@
+# Part A: sum.ys: Iteratively sum linked list elements
+
+	.pos 0
+	irmovq stack, %rsp	# Set up stack pointer
+	call main		# Execute main program
+	halt			# Terminate program
+
+# linked list
+	.align 8
+ls:
+	ele1:
+		.quad 0x00a
+		.quad ele2
+	ele2:
+		.quad 0x0b0
+		.quad ele3
+	ele3:
+		.quad 0xc00
+		.quad 0
+
+main:
+	irmovq ls, %rdi
+	call sum_list		# sum_list(ls)
+	ret
+
+# long sum_list(list_ptr ls)
+# ls in %rdi
+sum_list:
+	xorq %rax, %rax		# val = 0
+	jmp test		# Goto test
+loop:
+	mrmovq (%rdi), %r8	# Get ls->val
+	addq %r8, %rax		# val += ls->val
+	mrmovq 8(%rdi), %rdi	# ls = ls->val
+test:
+	andq %rdi, %rdi		# Set conditional codes
+	jne loop		# Stop when ls is null
+	ret
+
+# Stack here
+	.pos 0x200
+stack:
+

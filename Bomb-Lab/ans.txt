@@ -1,0 +1,36 @@
+Phase 1:
+Border relations with Canada have never been better.
+
+Phase 2:
+1 2 4 8 16 32
+
+Phase 3:
+8 answer(choose one)
+0 207
+1 311
+2 707
+3 256
+4 389
+5 206
+6 682
+7 327
+
+Phase 4:
+4 answer(choose one)
+0 0 DrEvil
+1 0 DrEvil
+3 0 DrEvil
+7 0 DrEvil
+
+Phase 5:
+2 answer(choose one)
+IONEFG
+ionefg
+
+Phase 6:
+4 3 2 1 6 5
+
+Secret Phase:
+22
+
+
